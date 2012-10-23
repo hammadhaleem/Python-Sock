@@ -28,17 +28,22 @@ except:
 #------------------------------------------------------------------------
 
 class StreamHandler ( Thread ):
-    def __init__( this ):
+    def __init__( this):
         Thread.__init__( this )
 
     def run(this):
 	print "running "
         this.process()
+    def define(this , p1 ,p2 ):
+        this.p1=p1
+	print this.p1
+	this.p2=p2
+	print this.p2
+	
 
     def bindmsock( this ):
         this.msock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	p1=9999
-        this.msock.bind(('', p1))
+        this.msock.bind(('', this.p1))
         this.msock.listen(1)
         print '[Media] Listening on port '+str(p1)
 
@@ -48,8 +53,7 @@ class StreamHandler ( Thread ):
     
     def bindcsock( this ):
         this.csock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	p2=9998
-        this.csock.bind(('', p2))
+        this.csock.bind(('', this.p2))
         this.csock.listen(1)
         print '[Control] Listening on port '+str(p2)
 
@@ -84,8 +88,13 @@ class StreamHandler ( Thread ):
     def close( this ):
         this.cconn.close()
         this.csock.close()
+	print "close all connections "
         this.mconn.close()
         this.msock.close()
+
+    def stopall(this):
+	sys.exit(1) 
+	
 
     def process( this ):
         while 1:
@@ -99,15 +108,17 @@ class StreamHandler ( Thread ):
 #------------------------------------------------------------------------
 
 
-class con_gui:
+class con_gui():
         string =" "
-	def __init__(self):
+	def __init__(self,s):
 	    self.gladefile = "gui-soc.glade"
 	    self.builder = gtk.Builder()
 	    self.builder.add_from_file(self.gladefile)
 	    self.builder.connect_signals(self)
 	    self.window = self.builder.get_object("dialog1")
 	    self.window.show()
+	    self.s=s
+    	    print s 	    
 	    
 	def on_window1_destroy(self, object, data=None):
 	    print "quit with cancel"
@@ -119,21 +130,23 @@ class con_gui:
 	    string ="Server running " 
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
-	    s = StreamHandler()
-	    s.start()
+	    self.s.define(int(self.entry1.get_text()),int(self.entry2.get_text()))
+	    self.s.start()
 
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
-	    string="stoppg server "	
-            s = StreamHandler()
-	    s.close  
+	    string="stopping server "	
+	    print string 
+	    self.s.stopall()
+	    self.s.close() 
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
+	    
 	 
 
 	
 	
-
-n=con_gui()
+n=con_gui(StreamHandler())
 gtk.main()
+
 

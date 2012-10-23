@@ -25,8 +25,10 @@ except:
 class func:
 	def __init__(self,string,host,cport,mport):
 		HOST  = host
-		CPORT = 9998
-		MPORT = 9999
+		CPORT = cport
+		MPORT = mport-1
+		print CPORT 
+		print MPORT
 		FILE = string
 		print string
 		cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -84,8 +86,8 @@ class con_gui:
 	    string="Address : "+str(self.entry1.get_text())+" : "+str(self.entry2.get_text()+"\n\n")
  	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
-	    fu=func(self.fname,self.entry1.get_text(),self.entry2.get_text(),self.entry2.get_text())
-	    fu=func(self.fname,self.entry1.get_text(),self.entry2.get_text(),self.entry2.get_text())
+	    fu=func(self.fname,self.entry1.get_text(),int(self.entry2.get_text()),int(self.entry2.get_text()))
+	    fu=func(self.fname,self.entry1.get_text(),int(self.entry2.get_text()),int(self.entry2.get_text()))
 
 
 	def on_clicked_stop(self, button, data="Nothing to send"):

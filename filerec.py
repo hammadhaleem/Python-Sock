@@ -2,6 +2,7 @@
 
 import socket, time, string, sys, urlparse
 from threading import *
+import bz2 
 
 #------------------------------------------------------------------------
 
@@ -15,7 +16,7 @@ class StreamHandler ( Thread ):
 
     def bindmsock( this ):
         this.msock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	p1=9999
+	p1=7777
         this.msock.bind(('', p1))
         this.msock.listen(1)
         print '[Media] Listening on port '+str(p1)
@@ -26,7 +27,7 @@ class StreamHandler ( Thread ):
     
     def bindcsock( this ):
         this.csock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	p2=9998
+	p2=7778
         this.csock.bind(('', p2))
         this.csock.listen(1)
         print '[Control] Listening on port '+str(p2)
