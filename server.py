@@ -4,6 +4,8 @@ import sys
 import socket
 import string
 import bz2 
+import socket, time, string, sys, urlparse
+from threading import *
 
 try:
   import math
@@ -111,7 +113,7 @@ class con_gui:
 	    print "quit with cancel"
 	    gtk.main_quit()
 
-	def on_clicked_start(self, button, data="Nothing to send")
+	def on_clicked_start(self, button, data="Nothing to send"):
 	    self.entry1 = self.builder.get_object("entry1")
    	    self.entry2 = self.builder.get_object("entry2")
 	    string="Address : "+str(self.entry1.get_text())+" : "+str(self.entry2.get_text()+"\n\n")
