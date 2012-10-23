@@ -100,7 +100,6 @@ class StreamHandler ( Thread ):
 	this.p2=int(da[1])
         print this.p1
 	print this.p2
-	gtk.main_quit()
 	while 1:
 	    this.bindcsock()
             this.acceptcsock()
@@ -108,7 +107,6 @@ class StreamHandler ( Thread ):
             this.acceptmsock()
             this.transfer()
             this.close()
-	    gtk.main()
 
 #------------------------------------------------------------------------
 
@@ -124,7 +122,7 @@ class con_gui():
 	    self.window.show()
 	    print "getting object "
 	    self.s=s	  
-	    print "got object"+str(self.s)  
+	    print "got object --> "+ str(self.s)  
 	    
 	def on_window1_destroy(self, object, data=None):
 	    print "quit with cancel"
@@ -142,22 +140,20 @@ class con_gui():
 	    fi.write(self.entry2.get_text())
 	    fi.close()
 	    print self.s
-	    self.s.start()
-		
-
+	    
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
 	    string="stopping server "	
 	    print string 
-            sys.exit(1)
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
+	    gtk.main_quit()
 	    
 	 
 
-	
-	
-n=con_gui(StreamHandler())
+s=StreamHandler()
+n=con_gui(s)
 gtk.main()
+s.start()
 
 
