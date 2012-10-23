@@ -37,7 +37,7 @@ class StreamHandler ( Thread ):
     def define(this , p1 ,p2 ):
         this.p1=p1
 	print this.p1
-	this.p2=p2-1
+	this.p2=p2
 	print this.p2
 	
 
@@ -130,7 +130,7 @@ class con_gui():
 	    string ="Server running " 
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
-	    self.s.define(int(self.entry2.get_text()),int(self.entry2.get_text()))
+	    self.s.define(int(self.entry1.get_text()),int(self.entry2.get_text()))
 	    self.s.start()
 
 
