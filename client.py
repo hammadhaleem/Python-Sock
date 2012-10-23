@@ -23,22 +23,20 @@ except:
 
 
 class func:
-	def __init__(self,string,host,mport,cport):
-		HOST  = host
-		CPORT = cport
-		MPORT = mport
-		print CPORT 
-		print MPORT
+	def __init__(self,string,h1,p2,p1):
+		
+		print p1 
+		print p2
 		FILE = string
 		print string
 		cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		cs.connect((HOST, CPORT))
+		cs.connect((h1, p1))
 		cs.send("SEND " + FILE)
 		cs.close()
 
 		ms = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		try:
-			ms.connect((HOST, MPORT))
+			ms.connect((h1, p2))
 		except :
 			print " "
 		f = open(FILE, "rb")
@@ -52,6 +50,7 @@ class func:
 		except:
 			print "step1......"
 		ms.close()
+	
 	def stop(self):
 		print "stop"
 		

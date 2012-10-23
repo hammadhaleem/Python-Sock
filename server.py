@@ -28,8 +28,6 @@ except:
 #------------------------------------------------------------------------
 
 class StreamHandler ( Thread ):
-    p1=9999
-    p2=8888
     def __init__( this):
         Thread.__init__( this )
       
@@ -76,8 +74,9 @@ class StreamHandler ( Thread ):
         while 1:
             data = this.mconn.recv(1024)
             if not data: break
-            f.write(bz2.decompress(data))
-            print bz2.decompress(data)
+	    da=bz2.decompress(data)
+            f.write(da)
+            print da
         f.close()
 
         print '[Media] Got "%s"' % this.filename
@@ -90,10 +89,6 @@ class StreamHandler ( Thread ):
         this.mconn.close()
         this.msock.close()
 
-    def stopall(this):
-	sys.exit(1) 
-	
-
     def process( this ):
 	print "openfile"
 	fi = open("temp.txt","r")
@@ -103,10 +98,10 @@ class StreamHandler ( Thread ):
 	#print da
 	this.p1=int(da[0])
 	this.p2=int(da[1])
-        while 1:
-	    print this.p1
-	    print this.p2
-            this.bindcsock()
+        print this.p1
+	print this.p2
+	while 1:
+	    this.bindcsock()
             this.acceptcsock()
             this.bindmsock()
             this.acceptmsock()
@@ -142,9 +137,8 @@ class con_gui():
 	    fi.write(self.entry2.get_text())
 	    fi.close()
             s=StreamHandler()
-	    self.s=s
-	    print self.s 
-	    self.s.start()
+	    print s
+	    s.start()
 
 
 	def on_clicked_stop(self, button, data="Nothing to send"):

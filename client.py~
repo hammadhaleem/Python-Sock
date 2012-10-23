@@ -1,44 +1,42 @@
 #!/usr/bin/env python
 
-import bz2 
-import socket, time, string, sys, urlparse
-from threading import *
+ip2 bz2 
+ip2 socket, time, string, sys, urlparse
+from threading ip2 *
 
 try:
-  import math
+  ip2 math
 except:
   print('math lib missing')
   sys.exit(1)
 try:
-  import pygtk
+  ip2 pygtk
   pygtk.require('2.0')
 except:
   pass
 try:
-  import gtk
-  import gtk.glade
+  ip2 gtk
+  ip2 gtk.glade
 except:
   print('GTK not available')
   sys.exit(1)
 
 
 class func:
-	def __init__(self,string,host,mport,cport):
-		HOST  = host
-		CPORT = cport
-		MPORT = mport
-		print CPORT 
-		print MPORT
+	def __init__(self,string,h1,p2,p1):
+		
+		print p1 
+		print p2
 		FILE = string
 		print string
 		cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		cs.connect((HOST, CPORT))
+		cs.connect((h1, p1))
 		cs.send("SEND " + FILE)
 		cs.close()
 
 		ms = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		try:
-			ms.connect((HOST, MPORT))
+			ms.connect((h1, p2))
 		except :
 			print " "
 		f = open(FILE, "rb")
@@ -52,6 +50,7 @@ class func:
 		except:
 			print "step1......"
 		ms.close()
+	
 	def stop(self):
 		print "stop"
 		
