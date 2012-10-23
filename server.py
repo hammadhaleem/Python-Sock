@@ -28,24 +28,22 @@ except:
 #------------------------------------------------------------------------
 
 class StreamHandler ( Thread ):
+    p1=9999
+    p2=8888
     def __init__( this):
         Thread.__init__( this )
+      
 
     def run(this):
 	print "running "
         this.process()
-    def define(this , p1 ,p2 ):
-        this.p1=p1
-	print this.p1
-	this.p2=p2
-	print this.p2
-	
 
+	
     def bindmsock( this ):
         this.msock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         this.msock.bind(('', this.p1))
         this.msock.listen(1)
-        print '[Media] Listening on port '+str(p1)
+        print '[Media] Listening on port '+str(this.p1)
 
     def acceptmsock( this ):
         this.mconn, this.maddr = this.msock.accept()
@@ -55,7 +53,7 @@ class StreamHandler ( Thread ):
         this.csock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         this.csock.bind(('', this.p2))
         this.csock.listen(1)
-        print '[Control] Listening on port '+str(p2)
+        print '[Control] Listening on port '+str(this.p2)
 
     def acceptcsock( this ):
         this.cconn, this.maddr = this.csock.accept()
@@ -97,7 +95,17 @@ class StreamHandler ( Thread ):
 	
 
     def process( this ):
+	print "openfile"
+	fi = open("temp.txt","r")
+	fdata=fi.read()
+	fi.close
+	da=fdata.split("\n")
+	#print da
+	this.p1=int(da[0])
+	this.p2=int(da[1])
         while 1:
+	    print this.p1
+	    print this.p2
             this.bindcsock()
             this.acceptcsock()
             this.bindmsock()
@@ -110,15 +118,13 @@ class StreamHandler ( Thread ):
 
 class con_gui():
         string =" "
-	def __init__(self,s):
+	def __init__(self):
 	    self.gladefile = "gui-soc.glade"
 	    self.builder = gtk.Builder()
 	    self.builder.add_from_file(self.gladefile)
 	    self.builder.connect_signals(self)
 	    self.window = self.builder.get_object("dialog1")
-	    self.window.show()
-	    self.s=s
-    	    print s 	    
+	    self.window.show()	    
 	    
 	def on_window1_destroy(self, object, data=None):
 	    print "quit with cancel"
@@ -130,15 +136,21 @@ class con_gui():
 	    string ="Server running " 
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
-	    self.s.define(int(self.entry1.get_text()),int(self.entry2.get_text()))
+	    fi = open("temp.txt","w")
+	    fi.write(self.entry1.get_text())
+	    fi.write("\n")
+	    fi.write(self.entry2.get_text())
+	    fi.close()
+            s=StreamHandler()
+	    self.s=s
+	    print self.s 
 	    self.s.start()
 
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
 	    string="stopping server "	
 	    print string 
-	    self.s.stopall()
-	    self.s.close() 
+            sys.exit(1)
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
 	    
@@ -146,7 +158,7 @@ class con_gui():
 
 	
 	
-n=con_gui(StreamHandler())
+n=con_gui()
 gtk.main()
 
 

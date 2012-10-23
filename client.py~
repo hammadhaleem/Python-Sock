@@ -26,7 +26,7 @@ class func:
 	def __init__(self,string,host,mport,cport):
 		HOST  = host
 		CPORT = cport
-		MPORT = mport-1
+		MPORT = mport
 		print CPORT 
 		print MPORT
 		FILE = string
