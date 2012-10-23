@@ -102,11 +102,11 @@ class StreamHandler ( Thread ):
 class con_gui:
         string =" "
 	def __init__(self):
-	    self.gladefile = "gui-ser.glade"
+	    self.gladefile = "gui-soc.glade"
 	    self.builder = gtk.Builder()
 	    self.builder.add_from_file(self.gladefile)
 	    self.builder.connect_signals(self)
-	    self.window = self.builder.get_object("window1")
+	    self.window = self.builder.get_object("dialog1")
 	    self.window.show()
 	    
 	def on_window1_destroy(self, object, data=None):

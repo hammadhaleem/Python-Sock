@@ -4,6 +4,8 @@ import sys
 import socket
 import string
 import bz2 
+import socket, time, string, sys, urlparse
+from threading import *
 
 try:
   import math
@@ -100,7 +102,7 @@ class StreamHandler ( Thread ):
 class con_gui:
         string =" "
 	def __init__(self):
-	    self.gladefile = "gui-ser.glade"
+	    self.gladefile = "gui-soc.glade"
 	    self.builder = gtk.Builder()
 	    self.builder.add_from_file(self.gladefile)
 	    self.builder.connect_signals(self)
