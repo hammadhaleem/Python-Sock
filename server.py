@@ -100,6 +100,7 @@ class StreamHandler ( Thread ):
 	this.p2=int(da[1])
         print this.p1
 	print this.p2
+	gtk.main_quit()
 	while 1:
 	    this.bindcsock()
             this.acceptcsock()
@@ -107,19 +108,23 @@ class StreamHandler ( Thread ):
             this.acceptmsock()
             this.transfer()
             this.close()
+	    gtk.main()
 
 #------------------------------------------------------------------------
 
 
 class con_gui():
         string =" "
-	def __init__(self):
+	def __init__(self,s):
 	    self.gladefile = "gui-soc.glade"
 	    self.builder = gtk.Builder()
 	    self.builder.add_from_file(self.gladefile)
 	    self.builder.connect_signals(self)
 	    self.window = self.builder.get_object("dialog1")
-	    self.window.show()	    
+	    self.window.show()
+	    print "getting object "
+	    self.s=s	  
+	    print "got object"+str(self.s)  
 	    
 	def on_window1_destroy(self, object, data=None):
 	    print "quit with cancel"
@@ -136,9 +141,9 @@ class con_gui():
 	    fi.write("\n")
 	    fi.write(self.entry2.get_text())
 	    fi.close()
-            s=StreamHandler()
-	    print s
-	    s.start()
+	    print self.s
+	    self.s.start()
+		
 
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
@@ -152,7 +157,7 @@ class con_gui():
 
 	
 	
-n=con_gui()
+n=con_gui(StreamHandler())
 gtk.main()
 
 
