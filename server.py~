@@ -97,42 +97,4 @@ class StreamHandler ( Thread ):
 #------------------------------------------------------------------------
 
 
-class con_gui:
-        string =" "
-	def __init__(self):
-	    self.gladefile = "gui-ser.glade"
-	    self.builder = gtk.Builder()
-	    self.builder.add_from_file(self.gladefile)
-	    self.builder.connect_signals(self)
-	    self.window = self.builder.get_object("window1")
-	    self.window.show()
-	    
-	def on_window1_destroy(self, object, data=None):
-	    print "quit with cancel"
-	    gtk.main_quit()
-
-	def on_clicked_start(self, button, data="Nothing to send")
-	    self.entry1 = self.builder.get_object("entry1")
-   	    self.entry2 = self.builder.get_object("entry2")
-	    string="Address : "+str(self.entry1.get_text())+" : "+str(self.entry2.get_text()+"\n\n")
- 	    self.display = self.builder.get_object("display")
-	    self.display.set_text(string)
-	    fu=func(self.fname,self.entry1.get_text(),self.entry2.get_text(),self.entry2.get_text())
-	    fu=func(self.fname,self.entry1.get_text(),self.entry2.get_text(),self.entry2.get_text())
-
-
-	def on_clicked_stop(self, button, data="Nothing to send"):
-	    string="connected"
-	    self.entry1 = self.builder.get_object("entry1")
-   	    self.entry2 = self.builder.get_object("entry2")
-	    string=string+" ::  Address : "+str(self.entry1.get_text())+" : "+str(self.entry2.get_text()+"\n\n")
-	    self.display = self.builder.get_object("display")
-	    self.display.set_text(string)
-	 
-
-	
-	
-
-n=con_gui()
-gtk.main()
 
