@@ -116,18 +116,17 @@ class con_gui:
 	def on_clicked_start(self, button, data="Nothing to send"):
 	    self.entry1 = self.builder.get_object("entry1")
    	    self.entry2 = self.builder.get_object("entry2")
-	    string="Address : "+str(self.entry1.get_text())+" : "+str(self.entry2.get_text()+"\n\n")
- 	    self.display = self.builder.get_object("display")
+	    string ="Server running " 
+	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
-	    fu=func(self.fname,self.entry1.get_text(),self.entry2.get_text(),self.entry2.get_text())
-	    fu=func(self.fname,self.entry1.get_text(),self.entry2.get_text(),self.entry2.get_text())
+	    s = StreamHandler()
+	    s.start()
 
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
-	    string="connected"
-	    self.entry1 = self.builder.get_object("entry1")
-   	    self.entry2 = self.builder.get_object("entry2")
-	    string=string+" ::  Address : "+str(self.entry1.get_text())+" : "+str(self.entry2.get_text()+"\n\n")
+	    string="stoppg server "	
+            s = StreamHandler()
+	    s.close  
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
 	 
