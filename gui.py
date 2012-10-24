@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 
+import sys
+import socket
+import string
 import bz2 
-import socket, time, string, sys, urlparse
-from threading import *
 
 try:
   import math
@@ -23,20 +24,20 @@ except:
 
 
 class func:
-	def __init__(self,string,h1,p2,p1):
-		
-		print p1 
-		print p2
+	def __init__(self,string,host,cport,mport):
+		HOST  = host
+		CPORT = 9998
+		MPORT = 9999
 		FILE = string
 		print string
 		cs = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-		cs.connect((h1, p1))
+		cs.connect((HOST, CPORT))
 		cs.send("SEND " + FILE)
 		cs.close()
 
 		ms = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 		try:
-			ms.connect((h1, p2))
+			ms.connect((HOST, MPORT))
 		except :
 			print " "
 		f = open(FILE, "rb")
@@ -46,12 +47,10 @@ class func:
 	
 		try:
 			ms.send(encrypted_data)
-			print encrypted_data
 			print "Send file "
 		except:
 			print "step1......"
 		ms.close()
-	
 	def stop(self):
 		print "stop"
 		
@@ -83,12 +82,11 @@ class con_gui:
 	    string="connected"
 	    self.entry1 = self.builder.get_object("entry1")
    	    self.entry2 = self.builder.get_object("entry2")
-            self.entry4 = self.builder.get_object("entry4")
 	    string="Address : "+str(self.entry1.get_text())+" : "+str(self.entry2.get_text()+"\n\n")
  	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
-	    fu=func(self.fname,self.entry1.get_text(),int(self.entry2.get_text()),int(self.entry4.get_text()))
-	    fu=func(self.fname,self.entry1.get_text(),int(self.entry2.get_text()),int(self.entry4.get_text()))
+	    fu=func(self.fname,self.entry1.get_text(),self.entry2.get_text(),self.entry2.get_text())
+	    fu=func(self.fname,self.entry1.get_text(),self.entry2.get_text(),self.entry2.get_text())
 
 
 	def on_clicked_stop(self, button, data="Nothing to send"):

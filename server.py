@@ -28,6 +28,7 @@ except:
 
 #------------------------------------------------------------------------
 
+
 class StreamHandler ( Thread ):
     def __init__( this ):
         Thread.__init__( this )
@@ -75,10 +76,20 @@ class StreamHandler ( Thread ):
         while 1:
             data = this.mconn.recv(1024)
             if not data: break
-	   # dec=bz2.decompress(data)
-            f.write(data)
-	    print data
+	    f.write(data)
+	    #print data
         f.close()
+	print "\nData recived \n"
+	fi = open(this.filename,"r")
+	fdata=fi.read()
+	fi.close
+	print "Starting to create a file \n"
+	fi = open(this.filename,"w+")
+	dec=bz2.decompress(fdata)
+	fi.write(dec)
+	print "Created FIle "	
+	fi.close
+	
 
         print '[Media] Got "%s"' % this.filename
         print '[Media] Closing media transfer for "%s"' % this.filename
@@ -89,7 +100,7 @@ class StreamHandler ( Thread ):
         this.mconn.close()
         this.msock.close()
 
-
+	
     def process( this ):
 	print "openfile"
 	fi = open("temp.txt","r")
@@ -107,15 +118,23 @@ class StreamHandler ( Thread ):
             this.bindmsock()
             this.acceptmsock()
             this.transfer()
-            this.close()
+	    this.close()
+	    data =""
+	    print "\nDo you wish to move to GUI MODE to reconfigue ?Y \ N "
+	    data = raw_input()
+	    if data == "y" or data == "Y" :break
+	n=con_gui()
+	gtk.main()
+	
 
+   
    
 
 #------------------------------------------------------------------------
 
 class con_gui():
         string =" "
-	def __init__(self,s):
+	def __init__(self):
 	    self.gladefile = "gui-soc.glade"
 	    self.builder = gtk.Builder()
 	    self.builder.add_from_file(self.gladefile)
@@ -123,8 +142,6 @@ class con_gui():
 	    self.window = self.builder.get_object("dialog1")
 	    self.window.show()
 	    print "getting object "
-	    self.s=s	  
-	    print "got object --> "+ str(self.s)  
 	    
 	def on_window1_destroy(self, object, data=None):
 	    print "quit with cancel"
@@ -141,7 +158,10 @@ class con_gui():
 	    fi.write("\n")
 	    fi.write(self.entry2.get_text())
 	    fi.close()
-	    self.s.start()
+	    button.destroy()
+	    self.s=StreamHandler()
+           
+	
 	    
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
@@ -149,10 +169,13 @@ class con_gui():
 	    print string 
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
+	    gtk.main_quit()
+	    button.destroy()
+	    self.window.destroy()
+	    self.s.start()
 	    
-	 
 
-s=StreamHandler()
-n=con_gui(s)
+
+n=con_gui()
 gtk.main()
 

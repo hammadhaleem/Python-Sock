@@ -248,34 +248,10 @@
                 <property name="can_focus">False</property>
                 <property name="spacing">1</property>
                 <child>
-                  <object class="GtkTable" id="table2">
+                  <object class="GtkLabel" id="status">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="n_columns">2</property>
-                    <property name="column_spacing">1</property>
-                    <property name="row_spacing">1</property>
-                    <child>
-                      <object class="GtkAccelLabel" id="accellabel4">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Key</property>
-                      </object>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="entry3">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="invisible_char">•</property>
-                        <property name="primary_icon_activatable">False</property>
-                        <property name="secondary_icon_activatable">False</property>
-                        <property name="primary_icon_sensitive">True</property>
-                        <property name="secondary_icon_sensitive">True</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                      </packing>
-                    </child>
+                    <property name="label" translatable="yes">Status</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>
