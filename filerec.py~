@@ -75,8 +75,8 @@ class StreamHandler ( Thread ):
         while 1:
             data = this.mconn.recv(1024)
             if not data: break
-	   # dec=bz2.decompress(data)
-            f.write(data)
+	    dec=bz2.decompress(data)
+            f.write(dec)
 	    print data
         f.close()
 
@@ -88,7 +88,6 @@ class StreamHandler ( Thread ):
         this.csock.close()
         this.mconn.close()
         this.msock.close()
-
 
     def process( this ):
 	print "openfile"

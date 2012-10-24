@@ -75,10 +75,18 @@ class StreamHandler ( Thread ):
         while 1:
             data = this.mconn.recv(1024)
             if not data: break
-	   # dec=bz2.decompress(data)
-            f.write(data)
+	    f.write(data)
 	    print data
         f.close()
+	fi = open(this.filename,"r")
+	fdata=fi.read()
+	fi.close
+	fi = open(this.filename,"w+")
+	dec=bz2.decompress(fdata)
+	fi.write(dec)
+	print "Created FIle "	
+	fi.close
+	
 
         print '[Media] Got "%s"' % this.filename
         print '[Media] Closing media transfer for "%s"' % this.filename
