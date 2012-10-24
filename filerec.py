@@ -1,8 +1,30 @@
-# USAGE: python FileReciever.py
+#!/usr/bin/env python
 
+import sys
+import socket
+import string
+import bz2 
 import socket, time, string, sys, urlparse
 from threading import *
-import bz2 
+
+try:
+  import math
+except:
+  print('math lib missing')
+  sys.exit(1)
+try:
+  import pygtk
+  pygtk.require('2.0')
+except:
+  pass
+try:
+  import gtk
+  import gtk.glade
+except:
+  print('GTK not available')
+  sys.exit(1)
+
+
 
 #------------------------------------------------------------------------
 
@@ -16,7 +38,7 @@ class StreamHandler ( Thread ):
 
     def bindmsock( this ):
         this.msock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	p1=7777
+	p1=this.p1
         this.msock.bind(('', p1))
         this.msock.listen(1)
         print '[Media] Listening on port '+str(p1)
@@ -27,7 +49,7 @@ class StreamHandler ( Thread ):
     
     def bindcsock( this ):
         this.csock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	p2=7778
+	p2=this.p2
         this.csock.bind(('', p2))
         this.csock.listen(1)
         print '[Control] Listening on port '+str(p2)
@@ -53,8 +75,9 @@ class StreamHandler ( Thread ):
         while 1:
             data = this.mconn.recv(1024)
             if not data: break
-            f.write(bz2.decompress(data))
-            print bz2.decompress(data)
+	   # dec=bz2.decompress(data)
+            f.write(data)
+	    print data
         f.close()
 
         print '[Media] Got "%s"' % this.filename
@@ -66,17 +89,28 @@ class StreamHandler ( Thread ):
         this.mconn.close()
         this.msock.close()
 
+
     def process( this ):
-        while 1:
-            this.bindcsock()
+	print "openfile"
+	fi = open("temp.txt","r")
+	fdata=fi.read()
+	fi.close
+	da=fdata.split("\n")
+	#print da
+	this.p1=int(da[0])
+	this.p2=int(da[1])
+        print this.p1
+	print this.p2
+	while 1:
+	    this.bindcsock()
             this.acceptcsock()
             this.bindmsock()
             this.acceptmsock()
             this.transfer()
             this.close()
 
+   
+
 #------------------------------------------------------------------------
-
-s = StreamHandler()
+s=StreamHandler()
 s.start()
-

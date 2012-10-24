@@ -25,23 +25,23 @@ except:
   sys.exit(1)
 
 
+
 #------------------------------------------------------------------------
 
 class StreamHandler ( Thread ):
-    def __init__( this):
+    def __init__( this ):
         Thread.__init__( this )
-      
 
     def run(this):
 	print "running "
         this.process()
 
-	
     def bindmsock( this ):
         this.msock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        this.msock.bind(('', this.p1))
+	p1=this.p1
+        this.msock.bind(('', p1))
         this.msock.listen(1)
-        print '[Media] Listening on port '+str(this.p1)
+        print '[Media] Listening on port '+str(p1)
 
     def acceptmsock( this ):
         this.mconn, this.maddr = this.msock.accept()
@@ -49,9 +49,10 @@ class StreamHandler ( Thread ):
     
     def bindcsock( this ):
         this.csock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        this.csock.bind(('', this.p2))
+	p2=this.p2
+        this.csock.bind(('', p2))
         this.csock.listen(1)
-        print '[Control] Listening on port '+str(this.p2)
+        print '[Control] Listening on port '+str(p2)
 
     def acceptcsock( this ):
         this.cconn, this.maddr = this.csock.accept()
@@ -74,9 +75,9 @@ class StreamHandler ( Thread ):
         while 1:
             data = this.mconn.recv(1024)
             if not data: break
-	    da=bz2.decompress(data)
-            f.write(da)
-            print da
+	   # dec=bz2.decompress(data)
+            f.write(data)
+	    print data
         f.close()
 
         print '[Media] Got "%s"' % this.filename
@@ -85,9 +86,9 @@ class StreamHandler ( Thread ):
     def close( this ):
         this.cconn.close()
         this.csock.close()
-	print "close all connections "
         this.mconn.close()
         this.msock.close()
+
 
     def process( this ):
 	print "openfile"
@@ -108,8 +109,9 @@ class StreamHandler ( Thread ):
             this.transfer()
             this.close()
 
-#------------------------------------------------------------------------
+   
 
+#------------------------------------------------------------------------
 
 class con_gui():
         string =" "
@@ -139,7 +141,7 @@ class con_gui():
 	    fi.write("\n")
 	    fi.write(self.entry2.get_text())
 	    fi.close()
-	    print self.s
+	    self.s.start()
 	    
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
@@ -147,13 +149,10 @@ class con_gui():
 	    print string 
 	    self.display = self.builder.get_object("display")
 	    self.display.set_text(string)
-	    gtk.main_quit()
 	    
 	 
 
 s=StreamHandler()
 n=con_gui(s)
 gtk.main()
-s.start()
-
 
