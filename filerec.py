@@ -89,7 +89,6 @@ class StreamHandler ( Thread ):
         this.mconn.close()
         this.msock.close()
 
-
     def process( this ):
 	print "openfile"
 	fi = open("temp.txt","r")
