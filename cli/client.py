@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import bz2 
+import os
 import socket, time, string, sys, urlparse
 from threading import *
 
@@ -24,7 +25,6 @@ except:
 
 class func:
 	def __init__(self,string,h1,p2,p1):
-		
 		print p1 
 		print p2
 		FILE = string
@@ -49,7 +49,7 @@ class func:
 			print encrypted_data
 			print "Send file "
 		except:
-			print "step1......"
+			print "Error Trying again !!"
 		ms.close()
 	
 	def stop(self):
@@ -90,6 +90,30 @@ class con_gui:
 	    fu=func(self.fname,self.entry1.get_text(),int(self.entry2.get_text()),int(self.entry4.get_text()))
 	    fu=func(self.fname,self.entry1.get_text(),int(self.entry2.get_text()),int(self.entry4.get_text()))
 
+	def on_clicked_req(self, button, data="Nothing to send"):
+		self.display = self.builder.get_object("display")
+		self.entry1 = self.builder.get_object("entry1")
+   	   	self.entry2 = self.builder.get_object("entry2")
+            	self.entry4 = self.builder.get_object("entry4")
+		self.entry3 = self.builder.get_object("entry3")
+		v1=self.entry1.get_text()
+		v2=int(self.entry2.get_text())
+		v3=int(self.entry4.get_text())
+		#fu=func(v1,v2,v3)
+		data = self.entry3.get_text()
+		l=['.doc','.txt','.pdf','.docx','.html','.mp3']
+		if data in l :
+			for r,d,f in os.walk("/home/hammad/dir"):
+    				for files in f:
+    				    if files.endswith(data):
+     					        d= os.path.join(r,files)
+				                print d 
+					        m=func(d,v1,v2,v3)
+						m=func(d,v1,v2,v3)
+					        self.display.set_text("Sent  " + d ) 
+		else :
+			self.display.set_text("File format not supported for sending ")
+			
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
 	    string="connected"

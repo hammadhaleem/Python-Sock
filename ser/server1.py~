@@ -4,6 +4,7 @@ import sys
 import socket
 import string
 import bz2 
+import os 
 import socket, time, string, sys, urlparse
 from threading import *
 
@@ -25,8 +26,6 @@ except:
   sys.exit(1)
 
 
-
-#------------------------------------------------------------------------
 
 
 class StreamHandler ( Thread ):
@@ -72,6 +71,7 @@ class StreamHandler ( Thread ):
 	i=len(s)
 	print s[i-1]
 	this.filename=s[i-1]
+	
         f = open(this.filename,"w+")
         while 1:
             data = this.mconn.recv(1024)
@@ -89,7 +89,14 @@ class StreamHandler ( Thread ):
 	fi.write(dec)
 	print "Created FIle "	
 	fi.close
-	
+	fp=open("temp1.txt","r")
+	data=fp.read()
+	fp.close()
+	if data is this.filename.endswith:
+		print "correct files " 
+	else:
+		os.remove(this.filename)
+
 
         print '[Media] Got "%s"' % this.filename
         print '[Media] Closing media transfer for "%s"' % this.filename
@@ -100,7 +107,7 @@ class StreamHandler ( Thread ):
         this.mconn.close()
         this.msock.close()
 
-	
+
     def process( this ):
 	print "openfile"
 	fi = open("temp.txt","r")
@@ -119,13 +126,13 @@ class StreamHandler ( Thread ):
             this.acceptmsock()
             this.transfer()
 	    this.close()
-	    data =""
-	    print "\nDo you wish to move to GUI MODE to reconfigue ?Y \ N "
-	    data = raw_input()
-	    if data == "y" or data == "Y" :break
+	    #data =""
+	    #print "\nDo you wish to move to GUI MODE to reconfigue ?Y \ N "
+	    #data = raw_input()
+	    #if data == "y" or data == "Y" :break
 	n=con_gui()
 	gtk.main()
-	
+
 
    
    
@@ -161,7 +168,16 @@ class con_gui():
 	    button.destroy()
 	    self.s=StreamHandler()
            
-	
+	def on_clicked_req(self, button, data="Nothing to send"):
+		 self.entry3 = self.builder.get_object("entry3")
+		 self.display = self.builder.get_object("display")
+		 string="Request created "
+	         self.display.set_text(string)
+		 fi = open("temp1.txt","w")
+	         fi.write(self.entry3.get_text())
+	         fi.close()
+		 print "added to stream " 
+
 	    
 
 	def on_clicked_stop(self, button, data="Nothing to send"):
@@ -174,7 +190,8 @@ class con_gui():
 	    self.window.destroy()
 	    self.s.start()
 	    
-
+fp=open("temp1.txt","w+")		
+fp.close()
 
 n=con_gui()
 gtk.main()
