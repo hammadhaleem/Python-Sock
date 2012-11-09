@@ -1,5 +1,0 @@
-import os 
-for r,d,f in os.walk("/home/hammad/dir"):
-    for files in f:
-        if files.endswith(".doc"):
-             print os.path.join(r,files)
