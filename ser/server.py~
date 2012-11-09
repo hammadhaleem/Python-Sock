@@ -73,8 +73,12 @@ class StreamHandler ( Thread ):
 	this.filename=s[i-1]
 	
         f = open(this.filename,"w+")
+	print "\nStarting to recive data "
+	nos=0 
         while 1:
             data = this.mconn.recv(1024)
+	    nos=nos+1
+	    print 'Reciving "%d" packet' % nos 
             if not data: break
 	    f.write(data)
 	    #print data
@@ -93,11 +97,11 @@ class StreamHandler ( Thread ):
 	data=fp.read()
 	fp.close()
 	if data is this.filename.endswith:
-		print data
+		#print data
 		print "correct files " 
 	 	print '[Media] Got "%s"' % this.filename
         	print '[Media] Closing media transfer for "%s"' % this.filename
-	else
+	else:
 		print "correct files " 
 	 	print '[Media] Got "%s"' % this.filename
         	print '[Media] Closing media transfer for "%s"' % this.filename
@@ -124,17 +128,18 @@ class StreamHandler ( Thread ):
 	this.p2=int(da[1])
         print this.p1
 	print this.p2
+	this.bindcsock()
+	this.bindmsock()
 	while 1:
-	    this.bindcsock()
-            this.acceptcsock()
-            this.bindmsock()
+	    this.acceptcsock()
             this.acceptmsock()
             this.transfer()
-	    this.close()
-	    #data =""
-	    #print "\nDo you wish to move to GUI MODE to reconfigue ?Y \ N "
-	    #data = raw_input()
-	    #if data == "y" or data == "Y" :break
+	    data =""
+	    if count % 4 is  0 :
+		    print "\nDo you wish to move to GUI MODE to reconfigue ?Y \ N "
+		    data = raw_input()
+		    if data == "y" or data == "Y" :break
+	this.close()
 	n=con_gui()
 	gtk.main()
 
